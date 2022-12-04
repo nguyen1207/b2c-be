@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const sequelize = require("./config/sequelize");
 const route = require("./routes/index");
+const passport = require("./config/passport");
 
 const app = express();
 const port = 8080;
@@ -9,6 +11,10 @@ sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
+
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+    app.use(passport.initialize());
 
     route(app);
 
