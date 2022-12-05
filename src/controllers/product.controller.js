@@ -3,7 +3,9 @@ const productService = require("../services/product.service");
 
 const productController = {
   async getProducts(req, res) {
-    const products = await productService.getProducts();
+    const { page, limit, sortBy } = req.query;
+
+    const products = await productService.getProducts(page, limit, sortBy);
 
     res.status(status.OK).json(products);
   },

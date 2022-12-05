@@ -4,7 +4,8 @@ const orderService = require("../services/order.service");
 
 const orderController = {
   async getOrderByUsername(req, res) {
-    const orders = await orderService.getOrdersByUsername(req.params.username);
+    const { page, limit, sortBy } = req.query;
+    const orders = await orderService.getOrdersByUsername(req.params.username, page, limit, sortBy);
 
     res.status(status.OK).json(orders);
   },

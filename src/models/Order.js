@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const sequelizePaginate = require("sequelize-paginate");
 
 Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
   date = this._applyTimezone(date, options);
@@ -60,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
+
+  sequelizePaginate.paginate(Order);
 
   return Order;
 };

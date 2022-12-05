@@ -1,3 +1,5 @@
+const sequelizePaginate = require("sequelize-paginate");
+
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define(
     "Product",
@@ -33,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
+
+  sequelizePaginate.paginate(Product);
 
   return Product;
 };

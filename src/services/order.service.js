@@ -8,14 +8,23 @@ const Product = db.product;
 const OrderRow = db.order_row;
 
 const orderService = {
-  async getOrdersByUsername(username) {
+  async getOrdersByUsername(username, page, limit, sortBy = "-createdAt") {
+    const orderBy = sortBy[0] === "-" ? [sortBy.slice(1), "DESC"] : [sortBy, "ASC"];
+
     const account = await Account.findOne({ where: { username } });
 
     if (!account) {
       throw createHttpError(400, "User not found");
     }
 
-    const orders = await Order.findAll({ where: { email: account.email } });
+    const options = {
+      page: page || 1,
+      paginate: parseInt(limit, 10) || 5,
+      order: [orderBy],
+      where: { email: account.email },
+    };
+
+    const orders = await Order.paginate(options);
 
     return orders;
   },
@@ -27,7 +36,7 @@ const orderService = {
           model: OrderRow,
           as: "orderRows",
           include: {
-            model: db.product,
+            model: Product,
             as: "product",
           },
         },
@@ -56,7 +65,7 @@ const orderService = {
 
       // validate products
       const productIds = body.orderRows.map((orderRow) => orderRow.productId);
-      const products = await db.product.findAll({
+      const products = await Product.findAll({
         where: { productId: productIds },
       });
 
@@ -110,7 +119,7 @@ const orderService = {
 
       await transaction.commit();
 
-      return { message: "Order created successfully" };
+      return order;
     } catch (error) {
       await transaction.rollback();
       throw error;

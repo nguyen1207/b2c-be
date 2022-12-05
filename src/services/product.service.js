@@ -2,8 +2,14 @@ const db = require("../models");
 const Product = db.product;
 
 const productService = {
-  async getProducts() {
-    const products = await Product.findAll();
+  async getProducts(page, limit, sortBy = "productId") {
+    const orderBy = sortBy[0] === "-" ? [sortBy.slice(1), "DESC"] : [sortBy, "ASC"];
+    const options = {
+      page: page || 1,
+      paginate: parseInt(limit, 10) || 2,
+      order: [orderBy],
+    };
+    const products = await Product.paginate(options);
 
     return products;
   },
