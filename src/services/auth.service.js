@@ -3,7 +3,8 @@ const createHttpError = require("http-errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const Account = require("../models/Account");
+const db = require("../models");
+const Account = db.account;
 
 const authService = {
   async generateToken(username, password) {

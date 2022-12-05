@@ -2,10 +2,12 @@ const createHttpError = require("http-errors");
 
 const productRouter = require("./product.routes");
 const authRouter = require("./auth.routes");
+const orderRouter = require("./order.routes");
 
 const route = (app) => {
   app.use("/api/products", productRouter);
   app.use("/api/auth", authRouter);
+  app.use("/api/orders", orderRouter);
 
   // 404 Error
   app.use((req, res, next) => {

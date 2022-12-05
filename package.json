@@ -17,7 +17,8 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.26.0",
-    "tedious": "^15.1.2"
+    "tedious": "^15.1.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
