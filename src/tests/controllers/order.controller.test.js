@@ -41,11 +41,11 @@ describe("Order controller", function () {
           address: "123 abc",
           orderRows: [
             {
-              productId: "74452325-85d6-42b0-9fa1-aa3c657f1afa",
+              productId: "36d4e3b4-1bf4-46c7-8062-5c4fe52c8604",
               quantity: 2,
             },
             {
-              productId: "50054ab3-255d-4385-a0ad-24ed78645ffe",
+              productId: "5a7bf2bd-4c9c-46d1-9498-e3334a1cb542",
               quantity: 2,
             },
           ],

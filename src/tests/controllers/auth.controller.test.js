@@ -62,7 +62,7 @@ describe("Auth controller", function () {
   });
 
   after(async function () {
-    await db.account.destroy({
+    await db.Account.destroy({
       where: {
         username,
       },

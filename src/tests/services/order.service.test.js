@@ -11,11 +11,11 @@ describe("Order service", function () {
         address: "123 bdf",
         orderRows: [
           {
-            productId: "74452325-85d6-42b0-9fa1-aa3c657f1afa",
+            productId: "5a7bf2bd-4c9c-46d1-9498-e3334a1cb542",
             quantity: 2,
           },
           {
-            productId: "50054ab3-255d-4385-a0ad-24ed78645ffe",
+            productId: "91a928e7-9cee-457e-886c-60cb9a35daa4",
             quantity: 2,
           },
         ],
