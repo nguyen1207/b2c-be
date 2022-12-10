@@ -1,11 +1,12 @@
 const createHttpError = require("http-errors");
 const uuid = require("uuid");
 
+const { PAYMENT_TYPE, PAYMENT_STATUS, ORDER_STATUS } = require("../utils/constants");
 const db = require("../models");
-const Order = db.orders;
-const Account = db.account;
-const Product = db.product;
-const OrderRow = db.order_row;
+const Order = db.Order;
+const Account = db.Account;
+const Product = db.Product;
+const OrderRow = db.OrderRow;
 
 const orderService = {
   async getOrdersByUsername(username, page, limit, sortBy = "-createdAt") {
@@ -34,7 +35,7 @@ const orderService = {
       include: [
         {
           model: OrderRow,
-          as: "orderRows",
+          as: "order_rows",
           include: {
             model: Product,
             as: "product",
@@ -92,15 +93,35 @@ const orderService = {
         return total + product.price * orderRow.quantity;
       }, 0);
 
+      let paymentType;
+      let paymentStatus;
+
+      switch (body.paymentType) {
+        case "Cash":
+          paymentType = PAYMENT_TYPE.CASH;
+          paymentStatus = PAYMENT_STATUS.PENDING;
+          break;
+        case "MoMo":
+          paymentType = PAYMENT_TYPE.MOMO;
+          paymentStatus = PAYMENT_STATUS.PAID;
+          break;
+        case "Bank":
+          paymentType = PAYMENT_TYPE.BANK;
+          paymentStatus = PAYMENT_STATUS.PAID;
+          break;
+        default:
+          throw createHttpError(400, "Payment type is invalid");
+      }
+
       // create order
       const order = await Order.create(
         {
           orderId: uuid.v4(),
-          paymentType: body.paymentType,
-          paymentStatus: "Pending",
-          orderStatus: "Processing",
+          paymentType,
+          paymentStatus,
+          orderStatus: ORDER_STATUS.PROCESSING,
           totalPrice,
-          createdAt: new Date(),
+          createdAt: new Date().getTime(),
           email: account.email,
           address: body.address,
           shippingCost: 50000,
@@ -113,6 +134,7 @@ const orderService = {
         orderId: order.orderId,
         productId: orderRow.productId,
         quantity: orderRow.quantity,
+        createdAt: new Date().getTime(),
       }));
 
       await OrderRow.bulkCreate(orderRows, { transaction });

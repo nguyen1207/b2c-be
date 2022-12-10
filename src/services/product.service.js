@@ -1,5 +1,5 @@
 const db = require("../models");
-const Product = db.product;
+const Product = db.Product;
 
 const productService = {
   async getProducts(page, limit, sortBy = "productId") {

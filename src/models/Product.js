@@ -5,12 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     "Product",
     {
       productId: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         primaryKey: true,
         allowNull: false,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       quantity: {
@@ -22,17 +22,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       imageUrl: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.BIGINT,
+      },
+      updatedAt: {
+        type: DataTypes.BIGINT,
       },
     },
     {
-      tableName: "product",
+      underscored: true,
       timestamps: false,
+      tableName: "Product",
     }
   );
 

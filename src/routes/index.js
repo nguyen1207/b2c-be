@@ -19,6 +19,7 @@ const route = (app) => {
 
   // 500 Error
   app.use((err, req, res, next) => {
+    console.error(err);
     console.error(err.message);
 
     if (createHttpError.isHttpError(err)) {

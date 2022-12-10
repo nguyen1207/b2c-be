@@ -3,17 +3,17 @@ module.exports = (sequelize, DataTypes) => {
     "OrderRow",
     {
       orderId: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         references: {
-          model: "orders",
+          model: "Order",
           key: "orderId",
         },
         primaryKey: true,
       },
       productId: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         references: {
-          model: "product",
+          model: "Product",
           key: "productId",
         },
         primaryKey: true,
@@ -22,10 +22,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      createdAt: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.BIGINT,
+      },
     },
     {
-      tableName: "order_row",
+      underscored: true,
       timestamps: false,
+      tableName: "OrderRow",
     }
   );
 

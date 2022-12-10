@@ -1,3 +1,5 @@
+const { ACCOUNT_TYPE } = require("../utils/constants");
+
 module.exports = (sequelize, DataTypes) => {
   const Account = sequelize.define(
     "Account",
@@ -17,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       type: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        values: ["Customer", "Agent", "Admin"],
+        values: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.CUSTOMER, ACCOUNT_TYPE.ADMIN],
       },
       address: {
         type: DataTypes.STRING,
@@ -29,10 +31,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      createdAt: {
+        type: DataTypes.BIGINT,
+      },
+      updatedAt: {
+        type: DataTypes.BIGINT,
+      },
     },
     {
-      tableName: "account",
+      underscored: true,
       timestamps: false,
+      tableName: "Account",
     }
   );
 

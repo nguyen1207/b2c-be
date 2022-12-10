@@ -21,10 +21,10 @@ const Order = require("./Order")(sequelize, DataTypes);
 const OrderRow = require("./OrderRow")(sequelize, DataTypes);
 const Product = require("./Product")(sequelize, DataTypes);
 
-db.account = Account;
-db.orders = Order;
-db.order_row = OrderRow;
-db.product = Product;
+db.Account = Account;
+db.Order = Order;
+db.OrderRow = OrderRow;
+db.Product = Product;
 
 console.log(Account);
 
@@ -32,13 +32,13 @@ db.sequelize.sync({ force: false }).then(() => {
   console.log("Synced");
 });
 
-db.account.hasMany(db.orders, { foreignKey: "email", as: "orders" });
-db.orders.belongsTo(db.account, { foreignKey: "email", as: "account" });
+db.Account.hasMany(db.Order, { foreignKey: "email", as: "orders" });
+db.Order.belongsTo(db.Account, { foreignKey: "email", as: "account" });
 
-db.orders.hasMany(db.order_row, { foreignKey: "orderId", as: "orderRows" });
-db.order_row.belongsTo(db.orders, { foreignKey: "orderId", as: "order" });
+db.Order.hasMany(db.OrderRow, { foreignKey: "order_id", as: "order_rows" });
+db.OrderRow.belongsTo(db.Order, { foreignKey: "order_id", as: "order" });
 
-db.order_row.belongsTo(db.product, { foreignKey: "productId", as: "product" });
-db.product.hasMany(db.order_row, { foreignKey: "productId", as: "orderRows" });
+db.OrderRow.belongsTo(db.Product, { foreignKey: "product_id", as: "product" });
+db.Product.hasMany(db.OrderRow, { foreignKey: "product_id", as: "order_rows" });
 
 module.exports = db;

@@ -1,7 +1,8 @@
 const { Sequelize } = require("sequelize");
 const sequelizePaginate = require("sequelize-paginate");
+const { PAYMENT_TYPE, PAYMENT_STATUS, ORDER_STATUS } = require("../utils/constants");
 
-Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
+Sequelize.DATE.prototype._TEXTify = function _TEXTify(date, options) {
   date = this._applyTimezone(date, options);
   return date.format("YYYY-MM-DD HH:mm:ss.SSS");
 };
@@ -11,44 +12,46 @@ module.exports = (sequelize, DataTypes) => {
     "Order",
     {
       orderId: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         primaryKey: true,
         allowNull: false,
       },
       paymentType: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        values: ["Cash", "Bank", "MoMo"],
+        values: [PAYMENT_TYPE.BANK, PAYMENT_TYPE.CASH, PAYMENT_TYPE.MOMO],
       },
       paymentStatus: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        values: ["Pending", "Paid"],
+        values: [PAYMENT_STATUS.PENDING, PAYMENT_STATUS.PAID],
       },
       orderStatus: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        values: ["Processing", "Delivering", "Delivered"],
+        values: [ORDER_STATUS.PROCESSING, ORDER_STATUS.DELIVERING, ORDER_STATUS.DELIVERED],
       },
       totalPrice: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
       createdAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.BIGINT,
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      updatedAt: {
+        type: DataTypes.BIGINT,
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         references: {
-          model: "account",
+          model: "Account",
           key: "email",
         },
         allowNull: false,
       },
       address: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       shippingCost: {
@@ -57,8 +60,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableName: "orders",
+      underscored: true,
       timestamps: false,
+      tableName: "Order",
     }
   );
 

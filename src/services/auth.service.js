@@ -3,8 +3,9 @@ const createHttpError = require("http-errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { ACCOUNT_TYPE } = require("../utils/constants");
 const db = require("../models");
-const Account = db.account;
+const Account = db.Account;
 
 const authService = {
   async generateToken(username, password) {
@@ -51,9 +52,10 @@ const authService = {
       email,
       username,
       password: hashedPassword,
-      type: "Customer",
+      type: ACCOUNT_TYPE.CUSTOMER,
       address,
       name,
+      createdAt: new Date().getTime(),
     });
   },
 };
