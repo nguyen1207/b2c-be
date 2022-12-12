@@ -5,6 +5,7 @@ const productController = require("../controllers/product.controller");
 const catchAsync = require("../utils/catchAsync");
 
 productRouter.get("/", catchAsync(productController.getProducts));
+productRouter.get("/get-multiple", catchAsync(productController.getProductsByIds));
 productRouter.get("/:id", catchAsync(productController.getProductById));
 
 module.exports = productRouter;

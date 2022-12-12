@@ -6,10 +6,18 @@ const productService = {
     const orderBy = sortBy[0] === "-" ? [sortBy.slice(1), "DESC"] : [sortBy, "ASC"];
     const options = {
       page: page || 1,
-      paginate: parseInt(limit, 10) || 2,
+      paginate: parseInt(limit, 10) || 24,
       order: [orderBy],
     };
     const products = await Product.paginate(options);
+
+    return products;
+  },
+
+  async getProductsByIds(productIds) {
+    const products = await Product.findAll({
+      where: { productId: productIds },
+    });
 
     return products;
   },

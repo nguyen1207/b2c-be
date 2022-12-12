@@ -10,6 +10,16 @@ const productController = {
     res.status(status.OK).json(products);
   },
 
+  async getProductsByIds(req, res) {
+    const productIds = JSON.parse(req.query.productIds);
+
+    console.log(productIds);
+
+    const products = await productService.getProductsByIds(productIds);
+
+    res.status(status.OK).json(products);
+  },
+
   async getProductById(req, res) {
     const product = await productService.getProductById(req.params.id);
 

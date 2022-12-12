@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const db = require("./models");
 const route = require("./routes/index");
 const passport = require("./config/passport");
@@ -12,6 +13,7 @@ db.sequelize
   .then(() => {
     console.log("Connection has been established successfully.");
 
+    app.use(cors());
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(passport.initialize());
